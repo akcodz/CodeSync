@@ -28,6 +28,7 @@
     "remixicon": "^4.6.0",
     "tailwindcss": "^4.0.5",
     "y-monaco": "^0.1.6",
+    "y-protocols": "^1.0.6",
     "yjs": "^13.6.23"
   },
   "devDependencies": {
