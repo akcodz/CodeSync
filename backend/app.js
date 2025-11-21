@@ -13,6 +13,10 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.get("/", (req, res) => {
+  res.send("hello world")
+})
+
 app.use('/users',userRoutes)
 app.use('/projects',projectRoutes)
 app.use('/ai',aiRoutes)
