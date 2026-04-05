@@ -9,6 +9,8 @@ import Projects from "../pages/Projects";
 import PrivateRoute from "./PrivateRoutes";
 import Project from "../pages/Project";
 import CodeReview from "../pages/CodeReview"
+import Problems from "../pages/Problems";
+import Problem from "../pages/Problem";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +30,22 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Project />
+          </PrivateRoute>
+        }
+      />
+        <Route
+        path="/problems"
+        element={
+          <PrivateRoute>
+            <Problems />
+          </PrivateRoute>
+        }
+      />
+        <Route
+        path="/problem/:id"
+        element={
+          <PrivateRoute>
+            <Problem />
           </PrivateRoute>
         }
       />

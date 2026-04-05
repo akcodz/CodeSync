@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const Login = () => {
-  const { setUser } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,8 +26,8 @@ const Login = () => {
       );
 
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        setUser(response.data.user);
+        
+        login(response.data.user,response.data.token);
         navigate("/projects");
         setFormData({ email: "", password: "" });
       }

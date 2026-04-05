@@ -6,6 +6,7 @@ import connectDb from "./db/db.js"
 import userRoutes from "./routes/user.routes.js"
 import projectRoutes from "./routes/project.routes.js"
 import aiRoutes from "./routes/ai.routes.js"
+import chatRoutes from "./routes/chat.routes.js"
 
 const app = express()
 connectDb()
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 app.use('/users',userRoutes)
 app.use('/projects',projectRoutes)
+app.use('/chats',chatRoutes)
 app.use('/ai',aiRoutes)
 
 export default app

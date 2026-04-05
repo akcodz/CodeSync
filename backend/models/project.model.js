@@ -10,6 +10,11 @@ const projectSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,13 +27,18 @@ const projectSchema = new mongoose.Schema(
       unique: true,
     },
     code: {
-      type: String, // Stores the latest version of the code
-      default: "", // Default empty code when a project is created
+      type: String, 
+      default: "", 
     },
     language: {
-      type: String, // Stores the programming language
+      type: String, 
       default: "",
     },
+
+    callId: {
+      type: String,
+      default: null,
+    }
   },
   {
     timestamps: true, // Automatically creates `createdAt` and `updatedAt` fields

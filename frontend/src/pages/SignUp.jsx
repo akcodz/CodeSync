@@ -4,7 +4,7 @@ import axios from "axios";
 import { UserContext } from "../context/UserContext";
 
 const Signup = () => {
-  const { setUser } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -27,8 +27,7 @@ const Signup = () => {
       );
 
       if (response.status === 201) {
-        localStorage.setItem("token", response.data.token);
-        setUser(response.data.user);
+        login(response.data.user,response.data.token);
         navigate("/projects");
         setFormData({ username: "", email: "", password: "" });
       }

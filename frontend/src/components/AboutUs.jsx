@@ -3,55 +3,73 @@ import { FaCode, FaUsers, FaRocket } from "react-icons/fa";
 const AboutUs = () => {
   const sections = [
     {
-      icon: <FaCode size={40} className="text-blue-400" />,
-      title: "Let’s Build the Future of <span className='text-blue-400'>Coding</span> Together.",
-      description: (
-        <>
-          At <span className="text-green-400">Live Script</span>, we empower <span className="text-yellow-400">developers</span> to collaborate in real-time, making <span className="text-red-400">coding seamless</span> and interactive.
-          Whether you're a <span className="text-pink-400">solo coder</span> or working with a <span className="text-purple-400">team</span>, build, debug, and innovate—without limits.
-        </>
-      )
+      icon: <FaCode size={28} className="text-zinc-300" />,
+      title: "Modern Collaborative Coding",
+      description:
+        "CodeSync provides a real-time coding environment where developers can write, edit, and review code together seamlessly. Built for interviews, pair programming, and team collaboration — all directly in the browser.",
     },
     {
-      icon: <FaUsers size={40} className="text-yellow-400" />,
-      title: "<span className='text-yellow-400'>Our Journey</span>",
-      description: (
-        <>
-          Live Script was born out of the <span className="text-blue-400">need</span> for a <span className="text-green-400">seamless real-time coding experience</span>. We envisioned a <span className="text-red-400">platform</span> where developers could <span className="text-yellow-400">collaborate</span> without constraints, enhancing <span className="text-purple-400">productivity</span> and innovation.
-        </>
-      )
+      icon: <FaUsers size={28} className="text-zinc-300" />,
+      title: "Built for Teams & Individuals",
+      description:
+        "Whether you're preparing for coding interviews, working on projects with friends, or mentoring others, CodeSync enables a shared coding experience with zero setup and instant synchronization.",
     },
     {
-      icon: <FaRocket size={40} className="text-purple-400" />,
-      title: "Our <span className='text-purple-400'>Core Values</span>",
-      description: (
-        <>
-          At <span className="text-green-400">Live Script</span>, we are driven by a commitment to <span className="text-blue-400">innovation</span>, <span className="text-yellow-400">collaboration</span>, and <span className="text-red-400">excellence</span>. Our core values define our <span className="text-pink-400">mission</span> and guide us in building the <span className="text-purple-400">ultimate real-time coding platform</span>.
-        </>
-      )
-    }
+      icon: <FaRocket size={28} className="text-zinc-300" />,
+      title: "AI-Powered Productivity",
+      description:
+        "With integrated AI code review, smart suggestions, and real-time feedback, CodeSync helps developers write better code faster — reducing debugging time and improving overall efficiency.",
+    },
   ];
 
   return (
-    <section className="text-gray-300 py-16 px-8">
-         {/* Heading */}
-         <h2 className="text-5xl font-bold font-heading  text-center mb-12">
-          Who Are We?
-        </h2>
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 font-body">
-        {sections.map((section, index) => (
-          <div
-            key={index}
-            className="bg-gray-950 p-6 rounded-lg shadow-md text-white border border-gray-600 hover:shadow-xl  min-w-[300px] hover:border-gray-500  hover:scale-105 transition-all duration-500 ease-in-out "
-          >
-            <div className="mb-4 flex justify-center">{section.icon}</div>
-            <h3
-              className="text-2xl font-bold mb-4"
-              dangerouslySetInnerHTML={{ __html: section.title }}
-            />
-            <p className="text-gray-400 text-lg">{section.description}</p>
-          </div>
-        ))}
+    <section className="bg-[#121212] text-zinc-300 py-20 px-6">
+      <div className="max-w-6xl mx-auto">
+
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight">
+            About CodeSync
+          </h2>
+          <p className="mt-4 text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed">
+            CodeSync is a real-time collaborative coding platform designed to
+            simplify how developers build, learn, and work together — powered by
+            intelligent tooling and seamless communication.
+          </p>
+        </div>
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {sections.map((section, index) => (
+            <div
+              key={index}
+              className="p-6 rounded-xl bg-[#181818] border border-zinc-800 
+              hover:border-zinc-600 transition-all duration-300"
+            >
+              {/* ICON */}
+              <div className="mb-4">{section.icon}</div>
+
+              {/* TITLE */}
+              <h3 className="text-lg font-semibold text-zinc-100 mb-2">
+                {section.title}
+              </h3>
+
+              {/* DESCRIPTION */}
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                {section.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* FOOTER STATEMENT */}
+        <div className="mt-16 text-center max-w-2xl mx-auto">
+          <p className="text-zinc-400 text-sm leading-relaxed">
+            Our mission is to redefine collaborative development by combining
+            real-time interaction with intelligent assistance — enabling
+            developers to focus on what truly matters: building great software.
+          </p>
+        </div>
       </div>
     </section>
   );

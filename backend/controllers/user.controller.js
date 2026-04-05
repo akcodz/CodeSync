@@ -1,99 +1,82 @@
-import User from "../models/user.model.js"
-import { validationResult } from "express-validator"
+import User from "../models/user.model.js";
+import { validationResult } from "express-validator";
+import { upsertStreamUser } from "../utils/stream.js";
 
 // Register a new user
 export const registerUser = async (req, res) => {
-  console.log("📥 REGISTER REQUEST RECEIVED")
-  console.log("➡️ Request body:", req.body)
-
-  const errors = validationResult(req)
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("❌ Validation errors:", errors.array())
-    return res.status(400).json({ errors: errors.array() })
+    return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, email, password } = req.body
-  console.log("🔍 Extracted fields:", { username, email, passwordPresent: !!password })
+  const { username, email, password } = req.body;
 
   try {
-    console.log("🔎 Checking if user exists...")
-    const existingUser = await User.findOne({ email })
-    console.log("📄 existingUser:", existingUser)
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      console.log("⚠️ User already exists:", email)
-      return res.status(400).json({ message: "User already exists" })
+      return res.status(400).json({ message: "User already exists" });
     }
 
-    console.log("🔐 Hashing password...")
-    const hashedPassword = await User.hashPassword(password)
-    console.log("🔐 Hashed password generated.")
+    const hashedPassword = await User.hashPassword(password);
 
-    console.log("📝 Creating new user...")
     const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
+    });
+
+    const token = newUser.createToken();
+
+    const user = newUser.toObject();
+    delete user.password;
+
+    await upsertStreamUser({
+      id: user._id.toString(),
+      name: newUser.username,
     })
-    console.log("✅ User created:", newUser._id)
 
-    console.log("🔑 Creating JWT token...")
-    const token = newUser.createToken()
-
-    const user = newUser.toObject()
-    delete user.password
-    console.log("📤 Returning response for new user:", user._id)
-
-    res.status(201).json({ token, user })
+    res.status(201).json({ token, user });
   } catch (error) {
-    console.error("💥 REGISTER ERROR:", error)
-    res.status(500).json({ message: error.message })
+    console.error("REGISTER ERROR:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 // Login a user
 export const loginUser = async (req, res) => {
-  console.log("📥 LOGIN REQUEST RECEIVED")
-  console.log("➡️ Request body:", req.body)
-
-  const errors = validationResult(req)
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("❌ Validation errors:", errors.array())
-    return res.status(400).json({ errors: errors.array() })
+    return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password } = req.body
-  console.log("🔍 Extracted fields:", { email, passwordPresent: !!password })
+  const { email, password } = req.body;
 
   try {
-    console.log("🔎 Searching for user...")
-    const user = await User.findOne({ email }).select("+password")
-    console.log("📄 User found? ", !!user)
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      console.log("⚠️ Invalid email during login:", email)
-      return res.status(400).json({ message: "Invalid email or password" })
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    console.log("🔐 Validating password...")
-    const isPasswordValid = await user.comparePassword(password)
-    console.log("🔐 Password valid:", isPasswordValid)
+    const isPasswordValid = await user.comparePassword(password);
 
     if (!isPasswordValid) {
-      console.log("⚠️ Incorrect password for user:", email)
-      return res.status(400).json({ message: "Invalid email or password" })
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    console.log("🔑 Generating JWT token...")
-    const token = user.createToken()
+    const token = user.createToken();
 
-    const userWithoutPassword = user.toObject()
-    delete userWithoutPassword.password
-    console.log("📤 Login success user:", user._id)
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
+    await upsertStreamUser({
+      id: userWithoutPassword._id.toString(),
+      name: userWithoutPassword.username,
+    })
 
-    res.status(200).json({ token, user: userWithoutPassword })
+    res.status(200).json({ token, user: userWithoutPassword });
   } catch (error) {
-    console.error("💥 LOGIN ERROR:", error)
-    res.status(500).json({ message: error.message })
+    console.error("LOGIN ERROR:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};

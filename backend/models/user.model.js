@@ -31,7 +31,7 @@ userSchema.methods.comparePassword = async function (password) {
 
 // Instance method to create JWT token
 userSchema.methods.createToken =  function () {
-    return  jwt.sign({ email: this.email, _id: this._id }, process.env.JWT_SECRET, { expiresIn: '6h' });
+    return  jwt.sign({ email: this.email, _id: this._id,username: this.username }, process.env.JWT_SECRET, { expiresIn: '7days' });
 };
 
 // Create User model

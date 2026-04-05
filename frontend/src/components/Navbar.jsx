@@ -1,23 +1,26 @@
-import React, { useContext, useState } from "react";
+import  { useContext, useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { IoClose } from "react-icons/io5"; // React Icon for Close
+import { IoClose } from "react-icons/io5"; 
 import logo from "../public/logo.png";
 import Login from "../pages/Login";
 import Signup from "../pages/SignUp";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  const token = localStorage.getItem("token");
+    const navigate = useNavigate();
+  const { user, token, logout } = useContext(UserContext);
 
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isSignupOpen, setSignupOpen] = useState(false);
 
+  useEffect(() => {
+    if (!token || !user) {
+      logout();
+    }
+  }, [token, user]);
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
+    logout();
     navigate("/");
   };
 
@@ -51,6 +54,12 @@ const Navbar = () => {
                   className="text-lg text-gray-300 hover:text-gray-100 transition-all duration-500 ease-in-out"
                 >
                   Projects
+                </Link>
+                <Link
+                  to="/problems"
+                  className="text-lg text-gray-300 hover:text-gray-100 transition-all duration-500 ease-in-out"
+                >
+                  Problems
                 </Link>
                 <div className="flex items-center gap-6">
                   <button
