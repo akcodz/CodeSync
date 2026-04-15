@@ -9,7 +9,10 @@ import aiRoutes from "./routes/ai.routes.js"
 import chatRoutes from "./routes/chat.routes.js"
 
 const app = express()
-connectDb()
+app.use(async (req, res, next) => {
+  await connectDb();
+  next();
+});
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
